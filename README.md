@@ -34,7 +34,7 @@ I've tried a lot of awesome open source projects but there was always something 
 # What's working:
 - Simply mount your photos folder
 - The photos get resized automatically
-- Minimalistic "good enough for now" design 
+- Minimalistic design 
 - Simple webpage to display the pictures
 - Very short (re)start/redeploy delay
 - New pictures are processed and added in every minute
