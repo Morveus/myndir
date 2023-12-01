@@ -84,3 +84,5 @@ cd myndir
 pip install -r requirements.txt
 python app.py
 ```
+
+Then put pictures in your `/path/to/local/gallery` folder. They get processed when the app starts, and new images are added every 30 seconds / 1 minute when the app is running.
