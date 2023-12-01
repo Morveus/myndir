@@ -16,7 +16,7 @@ I have a camera capable of uploading pictures through FTP/SSH, so I wrote a simp
 
 Then a script picks the folder up, spins up a pod on my Kubernetes cluster and creates a DNS entry: "trees.mydomain.com", effectively creating a quick gallery in real time from RAW pictures, as long as I have Internet connectivity where I'm shooting.
 
-This project is the "gallery container" part, and will work for any JPEG, PNGs... you throw at it.
+This project is the "gallery container" part, and will work for any JPEG, PNGs... you throw at it. The RAW processing part is not covered here, as it's manufacturer-dependant.
 
 # Why another gallery project
 I was looking for a very simple an lightweight photo gallery matching those criteria:
