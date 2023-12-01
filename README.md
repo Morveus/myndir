@@ -6,7 +6,14 @@
 
 (but already functional, see https://photos.morve.us/ ) 
 
-# Why
+# Context
+I have a camera capable of uploading pictures through FTP/SSH, so I wrote a simple tool allowing me to create "sessions" (let's say "Trees") from my smartphone, so every picture snapped from the camera lands in a named folder on my home NAS.
+
+Then a script picks the folder up, spins up a pod on my Kubernetes cluster and creates a DNS entry: "trees.mydomain.com", effectively creating a quick gallery in real time from RAW pictures, as long as I have Internet connectivity where I'm shooting.
+
+This project is the "gallery container" part, and will work for any JPEG, PNGs... you throw at it.
+
+# Why another gallery project
 I was looking for a very simple an lightweight photo gallery matching those criteria:
 - Easy to deploy
 - No database (I hate SQLite) 
