@@ -115,8 +115,14 @@ class Handler(FileSystemEventHandler):
 
 @app.route('/')
 def index():
+    # Get the list of image files
     images = os.listdir(RESIZED_FOLDER)
+
+    # Sort images by modification time, newest first
+    images.sort(key=lambda img: os.path.getmtime(os.path.join(RESIZED_FOLDER, img)), reverse=True)
+
     return render_template_string(HTML_TEMPLATE, images=images)
+
 
 if __name__ == '__main__':
     process_images(SOURCE_FOLDER, RESIZED_FOLDER)
