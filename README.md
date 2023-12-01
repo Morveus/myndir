@@ -63,3 +63,11 @@ If you want MUCH faster startup times after the first pictures generation, add t
 ```
 (or edit the docker-compose.yaml to mount this folder).
 
+# Running manually
+
+```sh
+git clone https://github.com/Morveus/myndir
+cd myndir
+pip install -r requirements.txt
+python app.py
+```
