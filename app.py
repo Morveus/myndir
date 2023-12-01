@@ -16,22 +16,40 @@ CHECK_INTERVAL = 60  # seconds
 app = Flask(__name__)
 
 # Image processing function
-def resize_and_optimize_image(input_path, output_path):
+def resize_and_optimize_image(input_path, output_path, base_width=1920):
     with Image.open(input_path) as img:
-        img = img.resize((1920, 1080))
+        # Calculate the height using the aspect ratio
+        w_percent = (base_width / float(img.size[0]))
+        h_size = int((float(img.size[1]) * float(w_percent)))
+
+        # Resize the image
+        img = img.resize((base_width, h_size))
+
+        # Save the image with optimization and specified quality
         img.save(output_path, "JPEG", optimize=True, quality=85)
 
 def process_images(source_folder, resized_folder):
     if not os.path.exists(resized_folder):
         os.makedirs(resized_folder)
 
+    files_with_dates = []
     for file_name in os.listdir(source_folder):
+        if file_name.lower().startswith('.'):
+            continue
         if file_name.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp')):
             source_path = os.path.join(source_folder, file_name)
-            resized_path = os.path.join(resized_folder, os.path.splitext(file_name)[0] + '.jpg')
+            files_with_dates.append((source_path, os.path.getmtime(source_path)))
 
-            if not os.path.exists(resized_path):
-                resize_and_optimize_image(source_path, resized_path)
+    # Sort the files based on the modification date, most recent first
+    files_with_dates.sort(key=lambda x: x[1], reverse=False)
+
+    for file_path, _ in files_with_dates:
+        file_name = os.path.basename(file_path)
+        resized_path = os.path.join(resized_folder, os.path.splitext(file_name)[0] + '.jpg')
+        if not os.path.exists(resized_path):
+            resize_and_optimize_image(file_path, resized_path)
+
+
 
 HTML_TEMPLATE = '''
 <!DOCTYPE html>

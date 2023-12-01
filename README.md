@@ -48,4 +48,11 @@ cd myndir
 docker-compose up
 ```
 
-(don't forget to change `/path/to/local/gallery` for your actual photos folder) 
+Don't forget to change `/path/to/local/gallery` for your actual photos folder.
+
+If you want MUCH faster startup times after the first pictures generation, add this to the command line to use persistent storage for your thumbnails:
+```sh
+-v /path/to/local/output-files:/app/optimized
+```
+(or edit the docker-compose.yaml to mount this folder).
+
