@@ -29,6 +29,7 @@ I've tried a lot of awesome open source projects but there was always something 
 - Fixing the ratio in CSS (ratio is not accounted for, for now)
 - Allowing (or not) users to download the original file
 - Social links
+- Prettier display (I love what https://github.com/waschinski/photo-stream has done) 
 
 # Deployment 
 
