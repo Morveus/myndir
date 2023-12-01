@@ -10,13 +10,21 @@ from watchdog.events import FileSystemEventHandler
 # Constants
 SOURCE_FOLDER = './source'
 RESIZED_FOLDER = './optimized'
-CHECK_INTERVAL = 60  # seconds
+CHECK_INTERVAL = 30  # seconds
 
 # Flask app
 app = Flask(__name__)
 
 # Image processing function
-def resize_and_optimize_image(input_path, output_path, base_width=1920):
+def resize_and_optimize_image(input_path, output_path, base_width=1280):
+    # Check if the file has been modified in the last 30 seconds
+    modification_time = os.path.getmtime(input_path)
+    current_time = time.time()
+    if current_time - modification_time < 30:
+        print(f"Skipping {input_path} as it was modified less than 30 seconds ago.")
+        return
+
+
     with Image.open(input_path) as img:
         # Calculate the height using the aspect ratio
         w_percent = (base_width / float(img.size[0]))
@@ -26,9 +34,10 @@ def resize_and_optimize_image(input_path, output_path, base_width=1920):
         img = img.resize((base_width, h_size))
 
         # Save the image with optimization and specified quality
-        img.save(output_path, "JPEG", optimize=True, quality=85)
+        img.save(output_path, "JPEG", optimize=True, quality=75)
 
 def process_images(source_folder, resized_folder):
+    print("Processing images...")
     if not os.path.exists(resized_folder):
         os.makedirs(resized_folder)
 
@@ -60,20 +69,23 @@ HTML_TEMPLATE = '''
         body { 
             margin: 0; 
             padding: 0; 
-            background-color: black; /* Set background color to black */
-            color: white; /* Set text color to white for better readability */
+            background-color: black; 
+            color: white; 
         }
         .gallery { 
             display: flex; 
             flex-wrap: wrap; 
-            justify-content: center; /* Center the images horizontally */
+            /* justify-content: center; */
         }
         .gallery img { 
-            flex: 1 0 30%; /* Flex basis set to 30% so at least 3 images fit per row */
-            max-width: 33%; /* Maximum width set to 30% */
+            flex: 1 0 33%; 
+            max-width: 33%; /* Pictures take 1/3 of the screen width */
             margin: 1px; 
             object-fit: cover; 
             height: auto; /* Maintain aspect ratio */
+        }
+        .gallery img:hover {
+            opacity: 0.7; /* Decrease opacity on hover */
         }
         @media (max-width: 900px) { 
             .gallery img { 
@@ -107,29 +119,16 @@ def send_image(filename):
 # Background watcher
 class Watcher:
     def __init__(self):
-        self.observer = Observer()
+        print("Init Watcher")
 
     def run(self):
-        event_handler = Handler()
-        self.observer.schedule(event_handler, SOURCE_FOLDER, recursive=True)
-        self.observer.start()
         try:
             while True:
+                process_images(SOURCE_FOLDER, RESIZED_FOLDER)
+                print("Watcher sleeping...")
                 time.sleep(CHECK_INTERVAL)
         except:
-            self.observer.stop()
-            print("Observer Stopped")
-
-class Handler(FileSystemEventHandler):
-
-    @staticmethod
-    def on_any_event(event):
-        if event.is_directory:
-            return None
-
-        elif event.event_type == 'created':
-            # Take any action here when a file is first created.
-            process_images(SOURCE_FOLDER, RESIZED_FOLDER)
+            print("Something went wrong")
 
 @app.route('/')
 def index():
