@@ -12,6 +12,9 @@ SOURCE_FOLDER = './source'
 RESIZED_FOLDER = './optimized'
 CHECK_INTERVAL = 30  # seconds
 
+# Variables
+page_title = os.environ.get('PAGE_TITLE', 'Myndir Photo Gallery')
+
 # Flask app
 app = Flask(__name__)
 
@@ -64,7 +67,7 @@ HTML_TEMPLATE = '''
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Image Gallery</title>
+    <title>{{page_title}}</title>
     <style>
         body { 
             margin: 0; 
@@ -138,7 +141,8 @@ def index():
     # Sort images by modification time, newest first
     images.sort(key=lambda img: os.path.getmtime(os.path.join(RESIZED_FOLDER, img)), reverse=True)
 
-    return render_template_string(HTML_TEMPLATE, images=images)
+    return render_template_string(HTML_TEMPLATE, images=images,
+                                                 page_title=page_title)
 
 
 if __name__ == '__main__':
