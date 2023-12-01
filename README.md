@@ -7,9 +7,9 @@
 (but already functional, see https://photos.morve.us/ ) 
 
 # How this works:
-1) Deploy
-2) Put photos in your source folder
-3) Enjoy
+1) 🚀 Deploy
+2) 📸 Put photos in your source folder
+3) 👀 Enjoy
 
 # Context
 I have a camera capable of uploading pictures through FTP/SSH, so I wrote a simple tool allowing me to create "sessions" (let's say "Trees") from my smartphone, so every picture snapped from the camera lands in a named folder on my home NAS.
