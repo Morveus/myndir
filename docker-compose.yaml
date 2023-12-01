@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  myndir:
+    image: morveus/myndir:latest
+    container_name: myndir
+    ports:
+      - "3000:3000"
+    volumes:
+      - /path/to/local/gallery:/app/source
