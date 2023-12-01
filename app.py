@@ -20,11 +20,11 @@ app = Flask(__name__)
 
 # Image processing function
 def resize_and_optimize_image(input_path, output_path, base_width=1280):
-    # Check if the file has been modified in the last 30 seconds
+    # Check if the file has been modified in the last 5 seconds
     modification_time = os.path.getmtime(input_path)
     current_time = time.time()
-    if current_time - modification_time < 30:
-        print(f"Skipping {input_path} as it was modified less than 30 seconds ago.")
+    if current_time - modification_time < 5:
+        print(f"Skipping {input_path} as it was modified less than 5 seconds ago.")
         return
 
 
