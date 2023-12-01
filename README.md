@@ -28,10 +28,11 @@ I've tried a lot of awesome open source projects but there was always something 
 
 # What's working:
 - Simply mount your photos folder
-- The photos get resized
+- The photos get resized automatically
 - Minimalistic "good enough for now" design 
-- They get displayed in a webpage
-- Very short start delay
+- Simple webpage to display the pictures
+- Very short (re)start/redeploy delay
+- New pictures are processed and added in every minute
 
 # What's to come to meet my needs:
 🟠 Changing the title and the favicon
