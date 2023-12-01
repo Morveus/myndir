@@ -52,8 +52,8 @@ HTML_TEMPLATE = '''
         }
         .gallery img { 
             flex: 1 0 30%; /* Flex basis set to 30% so at least 3 images fit per row */
-            max-width: 30%; /* Maximum width set to 30% */
-            margin: 5px; 
+            max-width: 33%; /* Maximum width set to 30% */
+            margin: 1px; 
             object-fit: cover; 
             height: auto; /* Maintain aspect ratio */
         }
