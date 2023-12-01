@@ -2,7 +2,7 @@
 
 👷🧑‍🏭 Work in Progress ⌨️⚒️
 
-
+<img width="1157" alt="image" src="https://github.com/Morveus/myndir/assets/2972468/e5a8dc6a-59d2-4e32-b50a-473baaab186a">
 
 (but already functional, see https://photos.morve.us/ ) 
 
@@ -27,12 +27,13 @@ I've tried a lot of awesome open source projects but there was always something 
 - Very short start delay
 
 # What's to come to meet my needs:
-- Changing the title and the favicon
-- Displaying pictures when clicked
-- Fixing the ratio in CSS (ratio is not accounted for, for now)
-- Allowing (or not) users to download the original file
-- Social links
-- Prettier display (I love what https://github.com/waschinski/photo-stream has done) 
+🟠 Changing the title and the favicon
+🟠 Sorting pictures by their creation date
+🔴 Displaying pictures when clicked
+🟢 Fixing the ratio in CSS (ratio is not accounted for, for now)
+🔴 Allowing (or not) users to download the original file
+🔴 Social links
+🟢 Prettier display (I love what https://github.com/waschinski/photo-stream has done) 
 
 # Deployment 
 
