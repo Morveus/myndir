@@ -10,22 +10,32 @@ from watchdog.events import FileSystemEventHandler
 # Constants
 SOURCE_FOLDER = './source'
 RESIZED_FOLDER = './optimized'
-CHECK_INTERVAL = 30  # seconds
+#CHECK_INTERVAL = 30  # seconds
 
 # Variables
 page_title = os.environ.get('PAGE_TITLE', 'Myndir Photo Gallery')
+CHECK_INTERVAL = os.environ.get('CHECK_INTERVAL', 30)
+IGNORE_FILEMTIME = os.environ.get('IGNORE_FILEMTIME', 0)
 
 # Flask app
 app = Flask(__name__)
 
+def log(text):
+    with open('log.txt', 'a') as file:
+        file.write(text + '\n')
+
+    print(text)
+
+
 # Image processing function
 def resize_and_optimize_image(input_path, output_path, base_width=1280):
-    # Check if the file has been modified in the last 5 seconds
-    modification_time = os.path.getmtime(input_path)
-    current_time = time.time()
-    if current_time - modification_time < 5:
-        print(f"Skipping {input_path} as it was modified less than 5 seconds ago.")
-        return
+    if IGNORE_FILEMTIME == 0:
+        # Check if the file has been modified in the last 5 seconds
+        modification_time = os.path.getmtime(input_path)
+        current_time = time.time()
+        if current_time - modification_time < 5:
+            log(f"Skipping {input_path} as it was modified less than 5 seconds ago.")
+            return
 
 
     with Image.open(input_path) as img:
@@ -40,7 +50,7 @@ def resize_and_optimize_image(input_path, output_path, base_width=1280):
         img.save(output_path, "JPEG", optimize=True, quality=75)
 
 def process_images(source_folder, resized_folder):
-    print("Processing images...")
+    log("Processing images...")
     if not os.path.exists(resized_folder):
         os.makedirs(resized_folder)
 
@@ -122,16 +132,16 @@ def send_image(filename):
 # Background watcher
 class Watcher:
     def __init__(self):
-        print("Init Watcher")
+        log("Init Watcher")
 
     def run(self):
         try:
             while True:
                 process_images(SOURCE_FOLDER, RESIZED_FOLDER)
-                print("Watcher sleeping...")
+                log("Watcher sleeping...")
                 time.sleep(CHECK_INTERVAL)
         except:
-            print("Something went wrong")
+            log("Something went wrong")
 
 @app.route('/')
 def index():
