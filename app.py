@@ -14,8 +14,11 @@ RESIZED_FOLDER = './optimized'
 
 # Variables
 page_title = os.environ.get('PAGE_TITLE', 'Myndir Photo Gallery')
-CHECK_INTERVAL = os.environ.get('CHECK_INTERVAL', 30)
-IGNORE_FILEMTIME = os.environ.get('IGNORE_FILEMTIME', 0)
+CHECK_INTERVAL = int(os.environ.get('CHECK_INTERVAL', 30))
+IGNORE_FILEMTIME = int(os.environ.get('IGNORE_FILEMTIME', 0))
+SORT_BY = os.environ.get('SORT_BY', "date")
+
+
 
 # Flask app
 app = Flask(__name__)
@@ -36,7 +39,6 @@ def resize_and_optimize_image(input_path, output_path, base_width=1280):
         if current_time - modification_time < 5:
             log(f"Skipping {input_path} as it was modified less than 5 seconds ago.")
             return
-
 
     with Image.open(input_path) as img:
         # Calculate the height using the aspect ratio
@@ -62,8 +64,13 @@ def process_images(source_folder, resized_folder):
             source_path = os.path.join(source_folder, file_name)
             files_with_dates.append((source_path, os.path.getmtime(source_path)))
 
-    # Sort the files based on the modification date, most recent first
-    files_with_dates.sort(key=lambda x: x[1], reverse=False)
+    # Sort the files based on the specified criteria
+    if SORT_BY == "date":
+        # Sort by modification date, most recent first
+        files_with_dates.sort(key=lambda x: x[1], reverse=True)
+    elif SORT_BY == "name":
+        # Sort by file name, last to first
+        files_with_dates.sort(key=lambda x: x[0].lower(), reverse=False)
 
     for file_path, _ in files_with_dates:
         file_name = os.path.basename(file_path)
@@ -140,8 +147,13 @@ class Watcher:
                 process_images(SOURCE_FOLDER, RESIZED_FOLDER)
                 log("Watcher sleeping...")
                 time.sleep(CHECK_INTERVAL)
-        except:
-            log("Something went wrong")
+        except Exception as e:
+            # Log the exception message
+            log(f"An error occurred: {e}")
+
+            # If you want to log the full traceback, you can use:
+            log("Full traceback:")
+            log(traceback.format_exc())
 
 @app.route('/')
 def index():
