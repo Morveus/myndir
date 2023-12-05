@@ -109,8 +109,8 @@ HTML_TEMPLATE = '''
         }
         @media (max-width: 900px) { 
             .gallery img { 
-                flex: 1 0 45%; /* Adjust for smaller screens */
-                max-width: 45%;
+                flex: 1 0 32%; /* Adjust for smaller screens */
+                max-width: 32%;
             }
         }
         @media (max-width: 600px) {
@@ -124,7 +124,7 @@ HTML_TEMPLATE = '''
 <body>
     <div class="gallery">
         {% for image in images %}
-            <img src="{{ url_for('send_image', filename=image) }}" alt="{{ image }}">
+            <img src="{{ url_for('send_image', filename=image) }}" alt="{{ image }}" loading="lazy">
         {% endfor %}
     </div>
 </body>
@@ -133,7 +133,9 @@ HTML_TEMPLATE = '''
 
 @app.route('/<filename>')
 def send_image(filename):
-    return send_from_directory(RESIZED_FOLDER, filename)
+    response = send_from_directory(RESIZED_FOLDER, filename)
+    response.headers['Cache-Control'] = 'public, max-age=31536000'  # Cache for 1 year
+    return response
 
 
 # Background watcher
@@ -168,7 +170,7 @@ def index():
 
 
 if __name__ == '__main__':
-    process_images(SOURCE_FOLDER, RESIZED_FOLDER)
+#    process_images(SOURCE_FOLDER, RESIZED_FOLDER)
     w = Watcher()
     t = threading.Thread(target=w.run)
     t.start()
