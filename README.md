@@ -42,9 +42,9 @@ I've tried a lot of awesome open source projects but there was always something 
 # What's to come to meet my needs:
 🟢 Changing the title
 
-🟠 Changing favicon
+🟢 Changing favicon (simply mount your favicon.ico file)
 
-🟠 Sorting pictures by their creation date
+🟢 Sorting pictures by their creation date
 
 🟢 Displaying pictures when clicked
 

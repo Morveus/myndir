@@ -136,8 +136,11 @@ HTML_TEMPLATE = '''
         .fullscreen-overlay img {
             margin: auto;
             display: block;
-            width: 80%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
             max-width: 90%;
+            max-height: 90%;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
