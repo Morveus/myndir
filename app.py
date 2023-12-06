@@ -119,14 +119,55 @@ HTML_TEMPLATE = '''
                 max-width: 90%;
             }
         }
+
+        /* Styles for fullscreen overlay */
+        .fullscreen-overlay {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+        }
+
+        .fullscreen-overlay img {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            position: absolute;
+        }
     </style>
 </head>
 <body>
     <div class="gallery">
         {% for image in images %}
-            <img src="{{ url_for('send_image', filename=image) }}" alt="{{ image }}" loading="lazy">
+            <img src="{{ url_for('send_image', filename=image) }}" alt="{{ image }}" loading="lazy" onclick="openFullscreen(this.src)">
         {% endfor %}
     </div>
+
+    <!-- Fullscreen overlay element -->
+    <div class="fullscreen-overlay" onclick="closeFullscreen()">
+        <img src="" alt="Fullscreen Image">
+    </div>
+
+    <script>
+        function openFullscreen(src) {
+            document.querySelector('.fullscreen-overlay img').src = src;
+            document.querySelector('.fullscreen-overlay').style.display = 'block';
+        }
+
+        function closeFullscreen() {
+            document.querySelector('.fullscreen-overlay').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
 '''
