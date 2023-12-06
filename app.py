@@ -18,8 +18,6 @@ CHECK_INTERVAL = int(os.environ.get('CHECK_INTERVAL', 30))
 IGNORE_FILEMTIME = int(os.environ.get('IGNORE_FILEMTIME', 0))
 SORT_BY = os.environ.get('SORT_BY', "date")
 
-
-
 # Flask app
 app = Flask(__name__)
 
@@ -85,6 +83,7 @@ HTML_TEMPLATE = '''
 <html>
 <head>
     <title>{{page_title}}</title>
+    <link rel="icon" href="favicon.ico" />
     <style>
         body { 
             margin: 0; 
@@ -174,13 +173,15 @@ HTML_TEMPLATE = '''
 
 @app.route('/<filename>')
 def send_image(filename):
-    response = send_from_directory(RESIZED_FOLDER, filename)
-    response.headers['Cache-Control'] = 'public, max-age=31536000'  # Cache for 1 year
-    return response
+    # Check if the file exists in the current directory
+    if os.path.exists(filename):
+        # Serve the file from the current directory
+        response = send_from_directory('.', filename)
+    else:
+        # Serve the file from the RESIZED_FOLDER
+        response = send_from_directory(RESIZED_FOLDER, filename)
 
-@app.route('/source/<filename>')
-def send_source_image(filename):
-    response = send_from_directory(SOURCE_FOLDER, filename)
+    # Set cache control header
     response.headers['Cache-Control'] = 'public, max-age=31536000'  # Cache for 1 year
     return response
 
