@@ -131,14 +131,14 @@ HTML_TEMPLATE = '''
             height: 100%; /* Full height */
             overflow: auto; /* Enable scroll if needed */
             background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+            background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
         }
 
         .fullscreen-overlay img {
             margin: auto;
             display: block;
             width: 80%;
-            max-width: 700px;
+            max-width: 90%;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -175,6 +175,12 @@ HTML_TEMPLATE = '''
 @app.route('/<filename>')
 def send_image(filename):
     response = send_from_directory(RESIZED_FOLDER, filename)
+    response.headers['Cache-Control'] = 'public, max-age=31536000'  # Cache for 1 year
+    return response
+
+@app.route('/source/<filename>')
+def send_source_image(filename):
+    response = send_from_directory(SOURCE_FOLDER, filename)
     response.headers['Cache-Control'] = 'public, max-age=31536000'  # Cache for 1 year
     return response
 

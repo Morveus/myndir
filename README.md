@@ -40,11 +40,13 @@ I've tried a lot of awesome open source projects but there was always something 
 - New pictures are processed and added in every minute
 
 # What's to come to meet my needs:
-🟠 Changing the title and the favicon
+🟢 Changing the title
+
+🟠 Changing favicon
 
 🟠 Sorting pictures by their creation date
 
-🔴 Displaying pictures when clicked
+🟢 Displaying pictures when clicked
 
 🟢 Fixing the ratio in CSS (ratio is not accounted for, for now)
 
