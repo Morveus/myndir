@@ -19,6 +19,12 @@ IGNORE_FILEMTIME = int(os.environ.get('IGNORE_FILEMTIME', 0))
 SORT_BY = os.environ.get('SORT_BY', "date")
 NSFW = os.environ.get('NSFW', 0)
 
+print("Starting...")
+print(f"Page Title: {page_title}")
+print(f"CHECK_INTERVAL: {CHECK_INTERVAL}")
+print(f"IGNORE_FILEMTIME: {IGNORE_FILEMTIME}")
+print(f"SORT_BY: {SORT_BY}")
+print(f"NSFW: {NSFW}")
 # Flask app
 app = Flask(__name__)
 
@@ -161,7 +167,6 @@ HTML_TEMPLATE = '''
             text-align: center;
             align-items: center;
             justify-content: center;
-            display: flex;
             flex-direction: column;
             font-size: 2em;
         }
@@ -203,6 +208,7 @@ HTML_TEMPLATE = '''
         function closeFullscreen() {
             document.querySelector('.fullscreen-overlay').style.display = 'none';
         }
+
         function acceptNSFW() {
             document.querySelector('.nsfw-warning-overlay').style.display = 'none';
             document.querySelector('.gallery').style.display = 'flex';
@@ -212,12 +218,15 @@ HTML_TEMPLATE = '''
         // On page load
         window.onload = function() {
             if (NSFW==1) {
+		console.log('Gallery is NSFW');
                 if (localStorage.getItem('nsfw_accepted') !== 'true') {
+                    console.log('NSFW prompt not accepted yet');
                     document.querySelector('.gallery').style.display = 'flex';
                     return;
                 }
             }
 
+            console.log('Displaying gallery');
             document.querySelector('.nsfw-warning-overlay').style.display = 'none';
             document.querySelector('.gallery').style.display = 'flex';
         };
