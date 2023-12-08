@@ -25,8 +25,8 @@ I was looking for a very simple an lightweight photo gallery matching those crit
 - As few dependencies as possible
 - Only based on one mounted folder
 - Quick to redeploy
-- That updates automatically when I add a photo to the folder
-- That resizes my pictures before serving them in the gallery
+- Updates automatically when I add a photo to the folder
+- Resizes my pictures before serving them in the gallery
 - Without a config file/env file, or at least a very small straightforward one if required
 
 I've tried a lot of awesome open source projects but there was always something bothering me (either some SQLite database, or a very long redeployment delay which isn't my cup of tea in a Kubernetes cluster)  I decided to write my own. 
