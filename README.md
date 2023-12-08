@@ -40,6 +40,12 @@ I've tried a lot of awesome open source projects but there was always something 
 - New pictures are processed and added in every minute
 
 # What's to come to meet my needs:
+🔴 Replacing Flask with nginx
+
+🔴 Using python to generate a static page instead of serving dynamically on each call
+
+🔴 Providing a setting to set the static page update frequency (every minute, hour, ...)
+
 🟢 Changing the title
 
 🟢 Changing favicon (simply mount your favicon.ico file)
