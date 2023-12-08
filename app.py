@@ -17,7 +17,7 @@ page_title = os.environ.get('PAGE_TITLE', 'Myndir Photo Gallery')
 CHECK_INTERVAL = int(os.environ.get('CHECK_INTERVAL', 30))
 IGNORE_FILEMTIME = int(os.environ.get('IGNORE_FILEMTIME', 0))
 SORT_BY = os.environ.get('SORT_BY', "date")
-NSFW = os.environ.get('NSFW', 1)
+NSFW = os.environ.get('NSFW', 0)
 
 # Flask app
 app = Flask(__name__)
