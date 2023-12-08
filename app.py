@@ -221,7 +221,7 @@ HTML_TEMPLATE = '''
 		console.log('Gallery is NSFW');
                 if (localStorage.getItem('nsfw_accepted') !== 'true') {
                     console.log('NSFW prompt not accepted yet');
-                    document.querySelector('.gallery').style.display = 'flex';
+                    document.querySelector('.nsfw-warning-overlay').style.display = 'flex';
                     return;
                 }
             }
