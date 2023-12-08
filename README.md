@@ -32,12 +32,13 @@ I was looking for a very simple an lightweight photo gallery matching those crit
 I've tried a lot of awesome open source projects but there was always something bothering me (either some SQLite database, or a very long redeployment delay which isn't my cup of tea in a Kubernetes cluster)  I decided to write my own. 
 
 # What's working:
-- Simply mount your photos folder
+- Simply mount your photos folder in the container (mine's in a K8S cluster)
 - The photos get resized automatically
 - Minimalistic design 
 - Simple webpage to display the pictures
 - Very short (re)start/redeploy delay
-- New pictures are processed and added in every minute
+- New pictures are processed and added in every X seconds (customizable)
+- Zoom on picture when clicked/tapped
 
 # What's to come to meet my needs:
 🔴 Replacing Flask with nginx
