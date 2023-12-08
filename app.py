@@ -17,6 +17,7 @@ page_title = os.environ.get('PAGE_TITLE', 'Myndir Photo Gallery')
 CHECK_INTERVAL = int(os.environ.get('CHECK_INTERVAL', 30))
 IGNORE_FILEMTIME = int(os.environ.get('IGNORE_FILEMTIME', 0))
 SORT_BY = os.environ.get('SORT_BY', "date")
+NSFW = os.environ.get('NSFW', 1)
 
 # Flask app
 app = Flask(__name__)
@@ -146,6 +147,30 @@ HTML_TEMPLATE = '''
             transform: translate(-50%, -50%);
             position: absolute;
         }
+        /* Styles for NSFW warning overlay */
+        .nsfw-warning-overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 2; /* Above the fullscreen overlay */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            color: white;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+            flex-direction: column;
+            font-size: 2em;
+        }
+
+        .nsfw-warning-overlay button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: large;
+        }
     </style>
 </head>
 <body>
@@ -160,7 +185,16 @@ HTML_TEMPLATE = '''
         <img src="" alt="Fullscreen Image">
     </div>
 
+    <!-- NSFW warning overlay -->
+    <div class="nsfw-warning-overlay">
+        <div>&#128286; This page contains NSFW material &#128286;</div>
+        <button onclick="acceptNSFW()">Accept once in this browser</button>
+    </div>
+
     <script>
+        // Set NSFW variable to true
+        var NSFW = {{ NSFW }};
+
         function openFullscreen(src) {
             document.querySelector('.fullscreen-overlay img').src = src;
             document.querySelector('.fullscreen-overlay').style.display = 'block';
@@ -169,6 +203,25 @@ HTML_TEMPLATE = '''
         function closeFullscreen() {
             document.querySelector('.fullscreen-overlay').style.display = 'none';
         }
+        function acceptNSFW() {
+            document.querySelector('.nsfw-warning-overlay').style.display = 'none';
+            document.querySelector('.gallery').style.display = 'flex';
+            localStorage.setItem('nsfw_accepted', 'true');
+        }
+
+        // On page load
+        window.onload = function() {
+            if (NSFW==1) {
+                if (localStorage.getItem('nsfw_accepted') !== 'true') {
+                    document.querySelector('.gallery').style.display = 'flex';
+                    return;
+                }
+            }
+
+            document.querySelector('.nsfw-warning-overlay').style.display = 'none';
+            document.querySelector('.gallery').style.display = 'flex';
+        };
+
     </script>
 </body>
 </html>
@@ -217,7 +270,8 @@ def index():
     images.sort(key=lambda img: os.path.getmtime(os.path.join(RESIZED_FOLDER, img)), reverse=True)
 
     return render_template_string(HTML_TEMPLATE, images=images,
-                                                 page_title=page_title)
+                                                 page_title=page_title,
+                                                 NSFW=NSFW)
 
 
 if __name__ == '__main__':
